@@ -56,15 +56,7 @@ export const Register = () => {
       />
       {errors.Password && <span>Password field is required</span>}
       <label>phone</label>
-      <input
-        {...register(
-          'phone'
-          //     {
-          //   pattern: /"^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$"/gim,
-          //   required: true
-          // }
-        )}
-      />
+      <input {...register('phone')} />
 
       <label>city</label>
       <input {...register('city')} />
