@@ -16,8 +16,6 @@ export const Register = () => {
   } = useForm<FormData>();
   const onSubmit: SubmitHandler<FormData> = (data) => {
     dispatch(printUser(data));
-
-    // console.log(data);
   };
 
   return (
@@ -80,7 +78,7 @@ export const Register = () => {
         Female
       </label>
       <button type="submit">SignUp</button>
-      <h1>{value.lastName}</h1>
+      <h1>hi {value.firstName}</h1>
     </form>
   );
 };
