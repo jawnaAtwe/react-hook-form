@@ -3,20 +3,46 @@ import * as React from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import './App.scss';
 import { FormData } from './Action/Action';
+import { useState } from 'react';
 
-function blurFunction() {
-  console.log('u click outside ');
-}
 export const Register = () => {
   const [{ value }, { printUser }, dispatch] = useAppContext();
+  const [inputValue, setInputValue] = useState('');
+
   const {
     register,
     handleSubmit,
+    setFocus,
     formState: { errors }
   } = useForm<FormData>();
+
   const onSubmit: SubmitHandler<FormData> = (data) => {
     dispatch(printUser(data));
   };
+
+  const formatPhoneNumber = (value: any) => {
+    if (!value) return value;
+    const phoneNumber = value.replace(/[^\d]/g, '');
+    const phoneNumberLength = phoneNumber.length;
+    if (phoneNumberLength < 4) return phoneNumber;
+    if (phoneNumberLength < 7) {
+      return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3)}`;
+    }
+    return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3, 6)}-${phoneNumber.slice(6, 10)}`;
+  };
+
+  const handleInput = (e: any) => {
+    const formattedPhoneNumber = formatPhoneNumber(e.target.value);
+    setInputValue(formattedPhoneNumber);
+  };
+
+  function blurFunction() {
+    console.log('u click outside ');
+    // setFocus(false);
+  }
+  React.useEffect(() => {
+    setFocus('firstName');
+  }, [setFocus]);
 
   return (
     <form className={'first'} onSubmit={handleSubmit(onSubmit)}>
@@ -56,7 +82,7 @@ export const Register = () => {
       />
       {errors.Password && <span>Password field is required</span>}
       <label>phone</label>
-      <input {...register('phone')} />
+      <input {...register('phone')} onChange={(e) => handleInput(e)} value={inputValue} />
 
       <label>city</label>
       <input {...register('city')} />
